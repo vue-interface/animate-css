@@ -133,27 +133,6 @@ export default {
                 elm.style[camelCase(`animation_${attr}`)] = value;
             }
         }
-        
-        /*
-        const duration = this.duration instanceof Function ? this.duration() : this.duration;
-
-        if(duration && this.$slots.default && this.$slots.default.length) {
-            const el = this.$slots.default[0].elm;
-            
-            if(el.style.animationDuration !== duration) {
-                el.style.animationDuration = duration;
-            }
-        }
-        const delay = this.delay instanceof Function ? this.delay() : this.delay;
-
-        if(delay && this.$slots.default && this.$slots.default.length) {
-            const el = this.$slots.default[0].elm;
-            
-            if(el.style.animationDelay !== delay) {
-                el.style.animationDelay = delay;
-            }
-        }
-        */
     },
 
     methods: {
