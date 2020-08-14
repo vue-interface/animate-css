@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "watch": "npm run serve",
-    "serve": "vue-cli-service build --target lib --name=AnimateCss ./index.js --watch",
-    "build": "vue-cli-service build --target lib --name=AnimateCss ./index.js",
+    "serve": "vue-cli-service build --target lib --name=AnimateCss ./main.vue --watch",
+    "build": "vue-cli-service build --target lib --name=AnimateCss ./main.vue",
     "lint": "vue-cli-service lint",
     "fix": "vue-cli-service lint --fix",
     "pre-release": "npm run build; git add . -A; git commit -m 'pre-release commit'",

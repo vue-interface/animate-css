@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import "animate.css";
 import { camelCase } from '@vue-interface/utils';
 
 export default {
@@ -87,6 +88,7 @@ export default {
         directionEffects: {
             type: Array,
             default: () => ([
+                'back',
                 'bounce',
                 'fade',
                 'flip',
@@ -139,7 +141,7 @@ export default {
 
         activeClass(key, ...classes) {
             return [
-                camelCase([
+                'animate__' + camelCase([
                     this.name,
                     !this.special && key,
                     this.direction,
@@ -147,7 +149,7 @@ export default {
                 ].filter(value => !!value).join(' '))
             ]
                 .concat([
-                    this.animated && 'animated'
+                    this.animated && 'animate__animated'
                 ])
                 .concat(classes)
                 .join(' ');
@@ -157,7 +159,3 @@ export default {
 
 };
 </script>
-
-<style>
-@import "~animate.css";
-</style>
