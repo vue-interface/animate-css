@@ -38,6 +38,7 @@
   "homepage": "https://github.com/vue-interface/animate-css/docs#readme",
   "dependencies": {
     "@vue-interface/utils": "^0.9.10",
+    "animate.css": "^4.1.0",
     "core-js": "^3.6.4",
     "vue": "^2.6.11"
   },
