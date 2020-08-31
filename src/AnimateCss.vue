@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import "animate.css";
+import 'animate.css';
 import { camelCase } from '@vue-interface/utils';
 
 export default {
