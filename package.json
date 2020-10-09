@@ -2,7 +2,7 @@
   "name": "@vue-interface/animate-css",
   "version": "0.9.6",
   "description": "A Vue transition wrapper for animate.css.",
-  "main": "./dist/AnimateCss.umd.js",
+  "main": "./index.js",
   "scripts": {
     "watch": "npm run serve",
     "serve": "vue-cli-service build --target lib --name=AnimateCss ./main.vue --watch",
