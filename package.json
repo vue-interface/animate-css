@@ -1,6 +1,6 @@
 {
   "name": "@vue-interface/animate-css",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "A Vue transition wrapper for animate.css.",
   "main": "./dist/AnimateCss.umd.js",
   "scripts": {
