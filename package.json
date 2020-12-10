@@ -2,7 +2,7 @@
   "name": "@vue-interface/animate-css",
   "version": "0.9.8",
   "description": "A Vue transition wrapper for animate.css.",
-  "main": "./index.js",
+  "main": "index.js",
   "scripts": {
     "watch": "npm run serve",
     "serve": "vue-cli-service build --target lib --name=AnimateCss ./main.vue --watch",
@@ -23,10 +23,9 @@
     "url": "git+https://github.com/vue-interface/animate-css.git"
   },
   "keywords": [
-    "Form",
-    "Control",
+    "Animate.css",
     "Vue",
-    "Mixin",
+    "Component",
     "Tailwind",
     "Bootstrap"
   ],
@@ -44,7 +43,6 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.7",
-    "@vue/cli-plugin-eslint": "^4.5.7",
     "@vue/cli-service": "^4.5.7",
     "@vuepress/plugin-register-components": "^1.6.0",
     "babel-eslint": "^10.1.0",
@@ -53,12 +51,6 @@
     "markdown-it-meta": "0.0.1",
     "vue-template-compiler": "^2.6.12",
     "vuepress": "^1.6.0",
-    "vuepress-plugin-template-constants": "^0.2.1",
-    "webpack-manifest-plugin": "^2.2.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "vuepress-plugin-template-constants": "^0.2.1"
+  }
 }

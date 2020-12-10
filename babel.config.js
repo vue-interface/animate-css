@@ -1,11 +1,11 @@
 module.exports = {
     presets: [
-        ['@vue/cli-plugin-babel/preset', {
-            browsers: [
-                "> 1%",
-                "last 2 versions",
-                "not dead"
-            ]
+        ['@vue/app', {
+            corejs: 3,
+            useBuiltIns: "usage", // or "entry"
+            targets: {
+                browsers: "> .25%, not dead",
+            }
         }]
     ]
 };
