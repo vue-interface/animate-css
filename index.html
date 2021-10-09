@@ -6,12 +6,20 @@
         <title>AnimateCss</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="./dist/AnimateCss.css">
+        <style>
+            .callout {
+                grid-area: callout;
+                align-self: center;
+                justify-self: center;
+                text-align: center;
+            }
+        </style>
     </head>
     <body>
-        <div id="app" class="container">
+        <div id="app" class="callout">
             <h1>animate-css</h1>
-
-            <animate-css name="slide" right>
+            
+            <animate-css name="fade">
                 <div v-if="mounted">
                     This node will slide from the right.
                 </div>
@@ -30,6 +38,10 @@
                 },
                 mounted() {
                     this.mounted = true;
+
+                    setTimeout(() => {
+                        this.mounted = false
+                    }, 2000)
                 },
                 data() {
                     return {

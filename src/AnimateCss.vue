@@ -25,48 +25,32 @@ export default {
 
     props: {
 
-        delay: [String, Number, Function],
-
-        duration: [String, Number, Function],
-        
-        mode: String,
-
-        enter: String,
-
-        enterClass: String,
-
-        leave: String,
-
-        enterToClass: String,
-
-        enterActiveClass: String,
-        
-        leaveClass: String,
-
-        leaveToClass: String,
-
-        leaveActiveClass: String,
-
-        x: Boolean,
-
-        y: Boolean,
-
-        big: Boolean,
-
-        up: Boolean,
-
-        down: Boolean,
-
-        left: Boolean,
-
-        right: Boolean,
-
         animated: {
             type: Boolean,
             default: true
         },
 
-        name: String,
+        attentionSeekerEffects: {
+            type: Array,
+            default: () => ([
+                'bounce',
+                'flash',
+                'pulse',
+                'rubberBand',
+                'shakeX',
+                'shakeY',
+                'headShake',
+                'swing',
+                'tada',
+                'wobble',
+                'jello',
+                'heartBeat',
+            ])
+        },
+
+        big: Boolean,
+
+        delay: [String, Number, Function],
 
         direction: {
             type: String,
@@ -100,25 +84,75 @@ export default {
             ])
         },
 
+        down: Boolean,
+
+        duration: [String, Number, Function],
+
+        enter: String,
+
+        enterClass: String,
+
+        enterToClass: String,
+
+        enterActiveClass: String,
+
+        inOut: Boolean,
+
+        leave: String,
+        
+        leaveClass: String,
+
+        leaveToClass: String,
+
+        leaveActiveClass: String,
+
+        left: Boolean,
+        
+        mode: String,
+
+        name: String,
+
+        prefix: {
+            type: String,
+            default: 'animate__'
+        },
+
+        right: Boolean,
+
         special: {
             type: Boolean,
             default() {
-                return this.name && this.directionEffects.indexOf(this.name.toLowerCase()) === -1;
+                return this.name && (
+                    !this.inOut && this.attentionSeekerEffects.indexOf(this.name.toLowerCase()) > -1
+                    || this.directionEffects.indexOf(this.name.toLowerCase()) === -1
+                );
             }
-        }
+        },
+
+        up: Boolean,
+
+        x: Boolean,
+
+        y: Boolean
 
     },
 
     computed: {
 
+        animatedClassName() {
+            return this.animated ? this.applyPrefix('animated') : '';
+        },
+
         enterActiveClassName() {
-            return this.enter && `${this.enter} ${this.animated && 'animated'}` || 
-                this.activeClass('in', this.enterActiveClass);
+            return this.enter
+                ? `${this.applyPrefix(this.enter)} ${this.animatedClassName}`
+                : this.activeClass('in', this.enterActiveClass);
         },
 
         leaveActiveClassName() {
-            return this.leave && `${this.leave} ${this.animated && 'animated'}` || 
-                this.activeClass('out', this.leaveActiveClass);
+            return this.leave 
+                ? `${this.applyPrefix(this.leave)} ${this.animatedClassName}`
+                : this.activeClass('out', this.leaveActiveClass);
         }
 
     },
@@ -141,19 +175,24 @@ export default {
 
         activeClass(key, ...classes) {
             return [
-                'animate__' + camelCase([
-                    this.name,
-                    !this.special && key,
-                    this.direction,
-                    this.big && 'big'
-                ].filter(value => !!value).join(' '))
+                this.applyPrefix(
+                    camelCase([
+                        this.name,
+                        !this.special && key,
+                        !this.special && this.direction,
+                        !this.special && this.big && 'big'
+                    ].filter(value => !!value).join(' '))
+                )
             ]
-                .concat([
-                    this.animated && 'animate__animated'
-                ])
+                .concat([this.animatedClassName])
                 .concat(classes)
+                .filter(value => !!value)
                 .join(' ');
-        }        
+        },
+        
+        applyPrefix(className) {
+            return `${this.prefix}${className}`;
+        }
 
     }
 
