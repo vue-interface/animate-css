@@ -1,2 +1,5 @@
-import AnimateCss from './src/AnimateCss';
-export default AnimateCss;
+import AnimateCss from './src/AnimateCss.vue';
+
+export {
+    AnimateCss
+};

@@ -7,19 +7,19 @@
         :leave-class="leaveClass"
         :leave-to-class="leaveToClass"
         :leave-active-class="leaveActiveClassName"
-        @before-enter="(...args) => this.$emit('before-enter', ...args)"
-        @enter="(...args) => this.$emit('enter', ...args)"
-        @after-enter="(...args) => this.$emit('after-enter', ...args)"
-        @before-leave="(...args) => this.$emit('before-leave', ...args)"
-        @leave="(...args) => this.$emit('leave', ...args)"
-        @after-leave="(...args) => this.$emit('after-leave', ...args)">
+        @before-enter="(...args) => emit('before-enter', ...args)"
+        @enter="(...args) => emit('enter', ...args)"
+        @after-enter="(...args) => emit('after-enter', ...args)"
+        @before-leave="(...args) => emit('before-leave', ...args)"
+        @leave="(...args) => emit('leave', ...args)"
+        @after-leave="(...args) => emit('after-leave', ...args)">
         <slot />
     </transition>
 </template>
 
 <script>
 import 'animate.css';
-import { camelCase } from '@vue-interface/utils';
+import { camelCase } from 'camel-case';
 
 export default {
 
@@ -192,6 +192,10 @@ export default {
         
         applyPrefix(className) {
             return `${this.prefix}${className}`;
+        },
+        
+        emit(...args) {
+            this.$emit(...args);
         }
 
     }

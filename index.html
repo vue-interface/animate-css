@@ -4,8 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>AnimateCss</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="./dist/AnimateCss.css">
         <style>
             .callout {
                 grid-area: callout;
@@ -16,20 +14,20 @@
         </style>
     </head>
     <body>
-        <div id="app" class="callout">
-            <h1>animate-css</h1>
+        <div id="app" class="container mx-auto">
+            <h1 class="text-4xl mb-6">animate-css</h1>
             
-            <animate-css name="fade">
+            <animate-css name="slide" right>
                 <div v-if="mounted">
                     This node will slide from the right.
                 </div>
             </animate-css>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.js"></script>
-        <script type="text/javascript" src="./dist/AnimateCss.umd.js"></script>
-        <script type="text/javascript">
-            const AnimateCss = window.AnimateCss;
+        <script type="module">
+            import './index.css';
+            import Vue from 'vue/dist/vue';
+            import { AnimateCss } from './index.js';
 
             const vue = new Vue({
                 el: '#app',
