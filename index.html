@@ -17,7 +17,7 @@
         <div id="app" class="container mx-auto">
             <h1 class="text-4xl mb-6">animate-css</h1>
             
-            <animate-css name="slide" right>
+            <animate-css name="slide" delay="1000ms" right>
                 <div v-if="mounted">
                     This node will slide from the right.
                 </div>
@@ -26,11 +26,10 @@
 
         <script type="module">
             import './index.css';
-            import Vue from 'vue/dist/vue';
-            import { AnimateCss } from './index.js';
+            import { createApp } from 'vue/dist/vue.esm-bundler.js';
+            import { AnimateCss } from './index.ts';
 
-            const vue = new Vue({
-                el: '#app',
+            const vue = createApp({
                 components: {
                     AnimateCss
                 },
@@ -47,6 +46,8 @@
                     };
                 }
             });
+
+            vue.mount('#app')
         </script>
     </body>
 </html>

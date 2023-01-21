@@ -1,204 +1,141 @@
 <template>
     <transition
         :mode="mode"
+        :duration="props.duration"
         :enter-class="enterClass"
         :enter-to-class="enterToClass"
         :enter-active-class="enterActiveClassName"
         :leave-class="leaveClass"
         :leave-to-class="leaveToClass"
         :leave-active-class="leaveActiveClassName"
-        @before-enter="(...args) => emit('before-enter', ...args)"
-        @enter="(...args) => emit('enter', ...args)"
-        @after-enter="(...args) => emit('after-enter', ...args)"
-        @before-leave="(...args) => emit('before-leave', ...args)"
-        @leave="(...args) => emit('leave', ...args)"
-        @after-leave="(...args) => emit('after-leave', ...args)">
+        @before-enter="(...args: any) => $emit('before-enter', ...args)"
+        @enter="(...args: any) => $emit('enter', ...args)"
+        @after-enter="(...args: any) => $emit('after-enter', ...args)"
+        @before-leave="(...args: any) => $emit('before-leave', ...args)"
+        @leave="(...args: any) => $emit('leave', ...args)"
+        @after-leave="(...args: any) => $emit('after-leave', ...args)">
         <slot />
     </transition>
 </template>
 
-<script>
+<script lang="ts" setup>
 import 'animate.css';
 import { camelCase } from 'camel-case';
+import { computed, useSlots } from 'vue';
 
-export default {
+const slots = useSlots();
 
-    props: {
+const props = withDefaults(defineProps<{
+    animated?: boolean,
+    attentionSeekerEffects?: string[],
+    big?: boolean,
+    direction?: string,
+    directionEffects?: string[],
+    down?: boolean,
+    duration?: number|{enter:number,leave:number},
+    enter?: string,
+    enterClass?: string,
+    enterToClass?: string,
+    enterActiveClass?: string,
+    inOut?: boolean,
+    leave?: string,    
+    leaveClass?: string,
+    leaveToClass?: string,
+    leaveActiveClass?: string,
+    left?: boolean,
+    mode?: 'in-out' | 'out-in' | 'default',
+    name?: string,
+    prefix?: string,
+    right?: boolean,
+    special?: boolean,
+    up?: boolean,
+    x?: boolean,
+    y?: boolean
+}>(), {
+    animated: true,
+    attentionSeekerEffects: () => ([
+        'bounce',
+        'flash',
+        'pulse',
+        'rubberBand',
+        'shakeX',
+        'shakeY',
+        'headShake',
+        'swing',
+        'tada',
+        'wobble',
+        'jello',
+        'heartBeat',
+    ]),
+    big: false,
+    delay: 0,
+    directionEffects: () => ([
+        'back',
+        'bounce',
+        'fade',
+        'flip',
+        'lightspeed',
+        'rotate',
+        'roll',
+        'slide',
+        'zoom'
+    ]),
+    down: false,
+    mode: 'default',
+    prefix: 'animate__',
+});
 
-        animated: {
-            type: Boolean,
-            default: true
-        },
+function applyPrefix(className: string): string {
+    return `${props.prefix}${className}`;
+}
 
-        attentionSeekerEffects: {
-            type: Array,
-            default: () => ([
-                'bounce',
-                'flash',
-                'pulse',
-                'rubberBand',
-                'shakeX',
-                'shakeY',
-                'headShake',
-                'swing',
-                'tada',
-                'wobble',
-                'jello',
-                'heartBeat',
-            ])
-        },
+function activeClass(key: string, className?: string): string {
+    return [
+        applyPrefix(
+            camelCase([
+                props.name,
+                !special.value && key,
+                !special.value && direction.value,
+                !special.value && props.big && 'big'
+            ].filter(value => !!value).join(' '))
+        )
+    ]
+        .concat([animatedClassName.value])
+        .concat(className || '')
+        .filter(value => !!value)
+        .join(' ');
+}
 
-        big: Boolean,
+const direction = computed(() => (
+    props.direction ||
+    props.x && 'x' ||
+    props.y && 'y' ||
+    props.up && 'up' ||
+    props.down && 'down' ||
+    props.left && 'left' ||
+    props.right && 'right'
+))
 
-        delay: [String, Number, Function],
+const special = computed(() => (
+    props.name && (
+        !props.inOut && props.attentionSeekerEffects.indexOf(props.name.toLowerCase()) > -1
+        || props.directionEffects.indexOf(props.name.toLowerCase()) === -1
+    )
+));
 
-        direction: {
-            type: String,
-            default() {
-                return (
-                    this.x && 'x' ||
-                    this.y && 'y' ||
-                    this.up && 'up' ||
-                    this.down && 'down' ||
-                    this.left && 'left' ||
-                    this.right && 'right'
-                ) || undefined;
-            },
-            validate(value) {
-                return ['up', 'down', 'left', 'right'].indexOf(value.toLowerCase()) !== -1;
-            }
-        },
+const animatedClassName = computed(() => {
+    return props.animated ? applyPrefix('animated') : '';
+});
 
-        directionEffects: {
-            type: Array,
-            default: () => ([
-                'back',
-                'bounce',
-                'fade',
-                'flip',
-                'lightspeed',
-                'rotate',
-                'roll',
-                'slide',
-                'zoom'
-            ])
-        },
+const enterActiveClassName = computed(() => {
+    return props.enter
+        ? `${applyPrefix(props.enter)} ${animatedClassName.value}`
+        : activeClass('in', props.enterActiveClass);
+});
 
-        down: Boolean,
-
-        duration: [String, Number, Function],
-
-        enter: String,
-
-        enterClass: String,
-
-        enterToClass: String,
-
-        enterActiveClass: String,
-
-        inOut: Boolean,
-
-        leave: String,
-        
-        leaveClass: String,
-
-        leaveToClass: String,
-
-        leaveActiveClass: String,
-
-        left: Boolean,
-        
-        mode: String,
-
-        name: String,
-
-        prefix: {
-            type: String,
-            default: 'animate__'
-        },
-
-        right: Boolean,
-
-        special: {
-            type: Boolean,
-            default() {
-                return this.name && (
-                    !this.inOut && this.attentionSeekerEffects.indexOf(this.name.toLowerCase()) > -1
-                    || this.directionEffects.indexOf(this.name.toLowerCase()) === -1
-                );
-            }
-        },
-
-        up: Boolean,
-
-        x: Boolean,
-
-        y: Boolean
-
-    },
-
-    computed: {
-
-        animatedClassName() {
-            return this.animated ? this.applyPrefix('animated') : '';
-        },
-
-        enterActiveClassName() {
-            return this.enter
-                ? `${this.applyPrefix(this.enter)} ${this.animatedClassName}`
-                : this.activeClass('in', this.enterActiveClass);
-        },
-
-        leaveActiveClassName() {
-            return this.leave 
-                ? `${this.applyPrefix(this.leave)} ${this.animatedClassName}`
-                : this.activeClass('out', this.leaveActiveClass);
-        }
-
-    },
-
-    updated() {
-        if(this.$slots.default && this.$slots.default.length) {
-            const [{ elm }] = this.$slots.default;
-
-            for(let attr of ['duration', 'delay']) {
-                const value = this[attr] instanceof Function
-                    ? this[attr]()
-                    : this[attr];
-                
-                elm.style[camelCase(`animation_${attr}`)] = value;
-            }
-        }
-    },
-
-    methods: {
-
-        activeClass(key, ...classes) {
-            return [
-                this.applyPrefix(
-                    camelCase([
-                        this.name,
-                        !this.special && key,
-                        !this.special && this.direction,
-                        !this.special && this.big && 'big'
-                    ].filter(value => !!value).join(' '))
-                )
-            ]
-                .concat([this.animatedClassName])
-                .concat(classes)
-                .filter(value => !!value)
-                .join(' ');
-        },
-        
-        applyPrefix(className) {
-            return `${this.prefix}${className}`;
-        },
-        
-        emit(...args) {
-            this.$emit(...args);
-        }
-
-    }
-
-};
+const leaveActiveClassName = computed(() => {
+    return props.leave 
+        ? `${applyPrefix(props.leave)} ${animatedClassName.value}`
+        : activeClass('out', props.leaveActiveClass);
+});
 </script>
